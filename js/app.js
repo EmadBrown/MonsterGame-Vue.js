@@ -6,6 +6,14 @@ new Vue({
         gameIsRunning: false,
         turns:[]
     },
+    computed: {
+        healthbarPlayer: function(){
+            return this.healthbarColor(this.playerHealh);
+        },
+        healthbarMonster: function(){
+            return this.healthbarColor(this.monsterhealth);
+        }
+    },
     methods:{
         startGame:function(){
             this.gameIsRunning = true;
@@ -51,6 +59,7 @@ new Vue({
         },
         giveUp: function(){
             this.gameIsRunning = false;
+            this.turns.length = 0;
         },
         calculateDamage: function(min, max){
             return Math.max(Math.floor(Math.random() * max)+1, min);
@@ -71,6 +80,7 @@ new Vue({
                 }else{
                     this.gameIsRunning = false;
                 }
+                this.turns.length = 0;
                 return true;
             }
             else if (this.playerHealh <= 0){
@@ -78,10 +88,23 @@ new Vue({
                     this.startGame();
                 }else{
                     this.gameIsRunning = false;
+                    this.turns.length = 0;
                 }
+                this.turns.length = 0;
                 return true;
             }
             return false
+        },
+        healthbarColor: function(player){
+            if(player <= 30) {
+                return 'red';
+            }
+            else if(player <= 65){
+                return 'orange';
+            }
+            else if(player > 65){
+                return 'green';
+            }
         }
     }
 
